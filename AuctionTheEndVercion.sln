@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionDB", "AuctionDB\AuctionDB.csproj", "{C96DAF76-4518-4B5A-BDC9-691BB658FDA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionBLLService", "AuctionBLLService\AuctionBLLService.csproj", "{53ED2E48-D089-4218-AC66-47A20AC24A76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C96DAF76-4518-4B5A-BDC9-691BB658FDA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96DAF76-4518-4B5A-BDC9-691BB658FDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96DAF76-4518-4B5A-BDC9-691BB658FDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96DAF76-4518-4B5A-BDC9-691BB658FDA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53ED2E48-D089-4218-AC66-47A20AC24A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53ED2E48-D089-4218-AC66-47A20AC24A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53ED2E48-D089-4218-AC66-47A20AC24A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53ED2E48-D089-4218-AC66-47A20AC24A76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB33A20F-55EA-46AE-89C3-2747E3940A4A}
+	EndGlobalSection
+EndGlobal
