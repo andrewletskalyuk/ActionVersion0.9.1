@@ -81,7 +81,7 @@ namespace WPFAuction
 
         private void MakeBet_BtnClick(object sender, RoutedEventArgs e)
         {
-
+            //commit
         }
 
         private void DisconectBuyer(object sender, EventArgs e)
