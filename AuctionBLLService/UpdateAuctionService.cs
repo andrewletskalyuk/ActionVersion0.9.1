@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AuctionBLLService
 {
-    
-    public class UpdateAuctionService 
+
+    public class UpdateAuctionService
     {
-       //public AuctionServiceSeller seller = new AuctionServiceSeller();
-//public  AuctionServiceBuyer buyer = new AuctionServiceBuyer();
+        //public AuctionServiceSeller seller = new AuctionServiceSeller();
+        //public  AuctionServiceBuyer buyer = new AuctionServiceBuyer();
         public UpdateAuctionService()
         {
 

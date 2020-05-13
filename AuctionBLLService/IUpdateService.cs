@@ -10,6 +10,7 @@ namespace AuctionBLLService
         void Refresh();
     }
     
+    //нам по ходу і SellerId тут треба
     public interface IUpdateCallBack
     {
         [OperationContract(IsOneWay = true)]

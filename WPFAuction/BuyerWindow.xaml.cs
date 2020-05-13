@@ -27,7 +27,7 @@ namespace WPFAuction
         public AuctionViewModelBuyer BuyerViewModel { get; set; }
         public IMapper buyerMaper = null;
         public IMapper lotMaper = null;
-        public BuyerWindow(string name,string password)
+        public BuyerWindow(string name, string password)
         {
             InitializeComponent();
             ForBuyerClient = new ForBuyerClient();
@@ -51,26 +51,22 @@ namespace WPFAuction
             this.DataContext = BuyerViewModel;
             stTest.DataContext = BuyerViewModel;
             ConnectionForBuyer();
-           
-
         }
 
         private void ConnectionForBuyer()
         {
             var tempBuyer = buyerMaper.Map<AuctionViewModelBuyer, ServerBuyerDTO>(BuyerViewModel);
 
-            if(ForBuyerClient.ConnectionForBuyer(tempBuyer))
+            if (ForBuyerClient.ConnectionForBuyer(tempBuyer))
             {
                 buyerWindowTitle.Title = BuyerViewModel.Name;
                 var allLot = ForBuyerClient.GetAllProduct();
                 foreach (var item in allLot)
                 {
-
-                var tempLot = lotMaper.Map<ServerLotDTO, Lot>(item);
+                    var tempLot = lotMaper.Map<ServerLotDTO, Lot>(item);
                     BuyerViewModel.BuyerLots.Add(tempLot);
-
                 }
-                    lstAuction.ItemsSource = BuyerViewModel.BuyerLots;
+                lstAuction.ItemsSource = BuyerViewModel.BuyerLots;
             }
             else
             {
