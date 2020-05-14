@@ -156,6 +156,8 @@
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Margin="15" Padding="7"
+                    Style="{StaticResource NewGameButtonStyle}" Click="RebuyBtn_Click">RebuyCash</Button>
                 <TextBlock>UserCash:</TextBlock>
                 <TextBlock Style="{StaticResource tbList}"         
                     x:Name="tbCash" Text="{Binding Path=Cash,StringFormat={}{0} $}"></TextBlock>

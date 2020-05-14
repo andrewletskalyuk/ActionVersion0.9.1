@@ -3,14 +3,13 @@ using System.ServiceModel;
 
 namespace AuctionBLLService
 {
-    [ServiceContract(CallbackContract = typeof(IUpdateCallBack))]
+    [ServiceContract(CallbackContract =typeof(IUpdateCallBack))]
     public interface IUpdateService
     {
         [OperationContract(IsOneWay = true)]
-        void Refresh();
+        void UpdateBuyer();
     }
-    
-    //нам по ходу і SellerId тут треба
+
     public interface IUpdateCallBack
     {
         [OperationContract(IsOneWay = true)]

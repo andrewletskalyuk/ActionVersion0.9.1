@@ -58,4 +58,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="ReturnBuyerCash">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cash" type="xs:decimal" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

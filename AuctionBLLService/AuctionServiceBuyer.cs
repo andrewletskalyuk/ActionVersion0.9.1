@@ -9,18 +9,24 @@ using System.ServiceModel;
 
 namespace AuctionBLLService
 {
-   
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
-    public class AuctionServiceBuyer : IForBuyer 
+  
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class AuctionServiceBuyer : UpdateAuctionService, IForBuyer 
     {
+        public List<ServerBuyerDTO> tempBuyersOnline = new List<ServerBuyerDTO>();
+
         public BuyerWrapper buyerWrapper=null;
         public IMapper mapperLot = null;
         public IMapper mapperBuyer = null;
         List<ServerLotDTO> templotsBuyer = new List<ServerLotDTO>(); //всі лоти 
-       public List<ServerBuyerDTO> tempBuyersOnline = new List<ServerBuyerDTO>();
+
         public AuctionServiceBuyer()
         {
+
             buyerWrapper = new BuyerWrapper();
+
+           // 
 
             var configLot = new MapperConfiguration(x =>
             {
@@ -44,7 +50,18 @@ namespace AuctionBLLService
                 if (tempBuyersOnline.FirstOrDefault(x=>x.Name==serverBuyerDTO.Name 
                                                     && x.Password==serverBuyerDTO.Password)==null)
                 {
+                    //повертаємо гроші баєру які в нього є на рахунку
+;
+                    serverBuyerDTO.Cash = buyerWrapper.GetCurrentCash(temp);
+                //    serverBuyerDTO.buyerCallback = .;
                     tempBuyersOnline.Add(serverBuyerDTO);
+                    foreach (ServerBuyerDTO item in tempBuyersOnline)
+                    {
+                        decimal cash = item.Cash;
+                        OperationContext.Current.GetCallbackChannel<IBuyerCallback>().ReturnBuyerCash(cash);
+                    
+                    }
+                    
                     return true;
                 }
                 else

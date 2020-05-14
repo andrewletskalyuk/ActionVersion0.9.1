@@ -24,4 +24,9 @@ namespace AuctionBLLService
         [OperationContract(IsOneWay = true)]
         void UpdateLot(ServerLotDTO serverLotDTO, ServerSellerDTO serverSellerDTO);
     }
+    public interface ISellerCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void ReturnBuyerCash(decimal cash);
+    }
 }

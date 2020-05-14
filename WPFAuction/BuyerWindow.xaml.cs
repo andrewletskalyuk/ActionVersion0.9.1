@@ -3,6 +3,7 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,16 +22,16 @@ namespace WPFAuction
     /// <summary>
     /// Логика взаимодействия для BuyerWindow.xaml
     /// </summary>
-    public partial class BuyerWindow : Window
+    public partial class BuyerWindow : Window,IForBuyerCallback
     {
         ForBuyerClient ForBuyerClient;
         public AuctionViewModelBuyer BuyerViewModel { get; set; }
         public IMapper buyerMaper = null;
         public IMapper lotMaper = null;
-        public BuyerWindow(string name, string password)
+        public BuyerWindow(string name,string password)
         {
             InitializeComponent();
-            ForBuyerClient = new ForBuyerClient();
+            ForBuyerClient = new ForBuyerClient(new InstanceContext(this));
             var buyerconfig = new MapperConfiguration(x =>
             {
                 x.CreateMap<ServerBuyerDTO, AuctionViewModelBuyer>();
@@ -51,22 +52,26 @@ namespace WPFAuction
             this.DataContext = BuyerViewModel;
             stTest.DataContext = BuyerViewModel;
             ConnectionForBuyer();
+
+
         }
 
-        private void ConnectionForBuyer()
+        private async void ConnectionForBuyer()
         {
             var tempBuyer = buyerMaper.Map<AuctionViewModelBuyer, ServerBuyerDTO>(BuyerViewModel);
 
-            if (ForBuyerClient.ConnectionForBuyer(tempBuyer))
+            if( await ForBuyerClient.ConnectionForBuyerAsync(tempBuyer))
             {
                 buyerWindowTitle.Title = BuyerViewModel.Name;
                 var allLot = ForBuyerClient.GetAllProduct();
                 foreach (var item in allLot)
                 {
-                    var tempLot = lotMaper.Map<ServerLotDTO, Lot>(item);
+
+                var tempLot = lotMaper.Map<ServerLotDTO, Lot>(item);
                     BuyerViewModel.BuyerLots.Add(tempLot);
+
                 }
-                lstAuction.ItemsSource = BuyerViewModel.BuyerLots;
+                    lstAuction.ItemsSource = BuyerViewModel.BuyerLots;
             }
             else
             {
@@ -77,13 +82,23 @@ namespace WPFAuction
 
         private void MakeBet_BtnClick(object sender, RoutedEventArgs e)
         {
-            //commit
+
         }
 
         private void DisconectBuyer(object sender, EventArgs e)
         {
             var tempBuyer = buyerMaper.Map<AuctionViewModelBuyer, ServerBuyerDTO>(BuyerViewModel);
             ForBuyerClient.DisconectionForBuyer(tempBuyer);
+        }
+
+        private void RebuyBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void ReturnBuyerCash(decimal cash)
+        {
+            BuyerViewModel.Cash=cash;
         }
     }
 }

@@ -9,7 +9,7 @@ using System.ServiceModel;
 
 namespace AuctionBLLService
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,ConcurrencyMode =ConcurrencyMode.Reentrant)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class AuctionServiceSeller : IForSeller
     {
         UpdateAuctionService update = new UpdateAuctionService();

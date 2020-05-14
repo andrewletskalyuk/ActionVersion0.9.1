@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuctionBLLService.DTOClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -8,18 +9,26 @@ using System.Threading.Tasks;
 namespace AuctionBLLService
 {
 
-    public class UpdateAuctionService
+    public class UpdateAuctionService:IUpdateService 
     {
-        //public AuctionServiceSeller seller = new AuctionServiceSeller();
-        //public  AuctionServiceBuyer buyer = new AuctionServiceBuyer();
+        
+       
+        List<ISellerCallback> sellerCallbacks;
+        public UpdateAuctionService(IBuyerCallback buyerCallback)
+        {
+          //  this.buyerCallback.Add(buyerCallback);
+
+        }
         public UpdateAuctionService()
         {
 
         }
-
-        public void Refresh()
+        public void UpdateBuyer()
         {
-            //auctionServiceBuyer.GetAllProduct();
+         //   buyerCallback.Add(OperationContext.Current.GetCallbackChannel<IBuyerCallback>());
+        }
+        public void UpdateSeller()
+        {
 
         }
     }

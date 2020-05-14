@@ -12,7 +12,7 @@ namespace WPFAuction.ServiceReferenceBuyer {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReferenceBuyer.IForBuyer")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReferenceBuyer.IForBuyer", CallbackContract=typeof(WPFAuction.ServiceReferenceBuyer.IForBuyerCallback))]
     public interface IForBuyer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IForBuyer/GetAllProduct", ReplyAction="http://tempuri.org/IForBuyer/GetAllProductResponse")]
@@ -22,34 +22,51 @@ namespace WPFAuction.ServiceReferenceBuyer {
         System.Threading.Tasks.Task<AuctionBLLService.DTOClasses.ServerLotDTO[]> GetAllProductAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IForBuyer/ConnectionForBuyer", ReplyAction="http://tempuri.org/IForBuyer/ConnectionForBuyerResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
         bool ConnectionForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IForBuyer/ConnectionForBuyer", ReplyAction="http://tempuri.org/IForBuyer/ConnectionForBuyerResponse")]
         System.Threading.Tasks.Task<bool> ConnectionForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/MakeBet")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
         void MakeBet(AuctionBLLService.DTOClasses.ServerLotDTO serverLotDTO, AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal newPrice);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/MakeBet")]
         System.Threading.Tasks.Task MakeBetAsync(AuctionBLLService.DTOClasses.ServerLotDTO serverLotDTO, AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal newPrice);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/DisconectionForBuyer")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
         void DisconectionForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/DisconectionForBuyer")]
         System.Threading.Tasks.Task DisconectionForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/BoughtLot")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
         void BoughtLot(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, AuctionBLLService.DTOClasses.ServerLotDTO serverLotDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/BoughtLot")]
         System.Threading.Tasks.Task BoughtLotAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, AuctionBLLService.DTOClasses.ServerLotDTO serverLotDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/AddCashForBuyer")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
         void AddCashForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/AddCashForBuyer")]
         System.Threading.Tasks.Task AddCashForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IForBuyerCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/ReturnBuyerCash")]
+        void ReturnBuyerCash(decimal cash);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -58,25 +75,26 @@ namespace WPFAuction.ServiceReferenceBuyer {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ForBuyerClient : System.ServiceModel.ClientBase<WPFAuction.ServiceReferenceBuyer.IForBuyer>, WPFAuction.ServiceReferenceBuyer.IForBuyer {
+    public partial class ForBuyerClient : System.ServiceModel.DuplexClientBase<WPFAuction.ServiceReferenceBuyer.IForBuyer>, WPFAuction.ServiceReferenceBuyer.IForBuyer {
         
-        public ForBuyerClient() {
+        public ForBuyerClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public ForBuyerClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public ForBuyerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public ForBuyerClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ForBuyerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ForBuyerClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ForBuyerClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ForBuyerClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public ForBuyerClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public AuctionBLLService.DTOClasses.ServerLotDTO[] GetAllProduct() {

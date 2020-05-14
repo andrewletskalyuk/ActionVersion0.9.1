@@ -10,14 +10,13 @@ using System.Windows.Media.Imaging;
 using WPFAuction.ViewModel;
 using WPFAuction.ServiceReferenceSeller;
 using AutoMapper;
-using System.Linq;
 
 namespace AuctionClient
 {
     /// <summary>
     /// Interaction logic for SellerWindow.xaml
     /// </summary> //changes
-    public partial class SellerWindow : Window, IUpdateCallBack
+    public partial class SellerWindow : Window
     {
 
         private int startPriceOfLot;
@@ -71,7 +70,7 @@ namespace AuctionClient
 
             if(ForSellerClient.ConnectionForSeller(tempSeller))
             {
-                sellerWindowTitle.Title = Sellerviewmodel.Name;
+            sellerWindowTitle.Title = Sellerviewmodel.Name;
             }
             else
             {
@@ -157,9 +156,10 @@ namespace AuctionClient
                 return false;
             }
         }
+
         public void UpdateLot(ServerLotDTO lot)
         {
-            Sellerviewmodel.SellerLots.FirstOrDefault(x=>x.)
+            throw new NotImplementedException();
         }
     }
 }

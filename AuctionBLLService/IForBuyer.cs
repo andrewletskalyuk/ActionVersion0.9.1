@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuctionBLLService
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract =typeof(IBuyerCallback))]
     public interface IForBuyer
     {
         [OperationContract]
@@ -23,5 +23,11 @@ namespace AuctionBLLService
         void BoughtLot(ServerBuyerDTO serverBuyerDTO, ServerLotDTO serverLotDTO);
         [OperationContract(IsOneWay = true)]
         void AddCashForBuyer(ServerBuyerDTO serverBuyerDTO);
+    }
+
+    public interface IBuyerCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void ReturnBuyerCash(decimal cash);
     }
 }

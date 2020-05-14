@@ -13,7 +13,8 @@ namespace AuctionBLLService.DTOClasses
         public string Name { get; set; }
         public string Password { get; set; }
         public decimal Cash { get; set; }
-       // public OperationContext operationContextCallBack { get; set; }
+        public IBuyerCallback buyerCallback { get; set; }
+        
         public ObservableCollection<ServerLotDTO> BuyerSelectedLots { get; set; } //лоти що зробив ставку
         public ObservableCollection<ServerLotDTO> BuyerBoughtLots { get; set; } //лоти що купив
     }

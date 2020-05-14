@@ -56,5 +56,11 @@ namespace AuctionDB.ClassesWithAccessToDB
         {
             auctionModel.SaveChanges();
         }
+
+        public decimal GetCurrentCash(Buyers buyer)
+        {
+            var _buyer = auctionModel.Buyers.FirstOrDefault(b => b.Name == buyer.Name && b.Password == buyer.Password);
+            return _buyer.Cash;
+        }
     }
 }

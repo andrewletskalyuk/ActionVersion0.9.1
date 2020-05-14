@@ -1,14 +1,29 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Windows;
 using WPFAuction;
+using WPFAuction.ServiceReference1;
+using WPFAuction.ServiceReferenceBuyer;
 
 namespace AuctionClient
 {
     /// <summary>
     /// Логика взаимодействия для StartWindow.xaml
     /// </summary>
+    /// 
+
+    //public class CallBackClass : IForBuyerCallback
+    //{
+    //    public void ReturnBuyerCash(decimal cash)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
+
     public partial class StartWindow : Window
     {
+     //  public UpdateServiceClient client;
+        ConnectionClass Connection = new ConnectionClass();
         public StartWindow()
         {
             InitializeComponent();
@@ -31,9 +46,13 @@ namespace AuctionClient
             try
             {
                 //int buyerCash = Int32.Parse(tbBuyerCash.Text);
+                //ForBuyerClient client = new ForBuyerClient(new InstanceContext(new CallBackClass()));
                 BuyerWindow window = new BuyerWindow(tbBuyerName.Text, tbBuyerCash.Text);
+               // client = new UpdateServiceClient(new InstanceContext(window));
+             //   client.UpdateBuyer();
                 window.Owner = this; //головне вікно - це.
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                
                 window.Show();
             }
             catch (InvalidOperationException ex)

@@ -8,6 +8,7 @@ namespace AuctionDB.Interfaces
 {
     public interface IForBuyers<L,B>
     {
+        decimal GetCurrentCash(B buyer);
         void AddBuyer(B item);
         void AddCashForBuyer(B buyer);
         bool DoesItBuyerExist(B buyer);

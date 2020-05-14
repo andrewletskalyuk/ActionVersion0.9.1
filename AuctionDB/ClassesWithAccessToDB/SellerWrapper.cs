@@ -22,19 +22,12 @@ namespace AuctionDB.ClassesWithAccessToDB
         }
         public void AddLot(Lots item,Sellers seller)
         {
-            //try
-            //{
+
             var tempseller = auctionContext.Sellers.FirstOrDefault(x => x.Name == seller.Name && x.Password == seller.Password);
             item.SellerId = tempseller.Id;
-
+            item.BuyerId = 4;
                 auctionContext.Lots.Add(item);
                 Commit();
-            //}
-            //catch(Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message,ex.InnerException);
-            //}
-
 
         }
 
