@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
+using WPFAuction.TimerClass;
 
 namespace WPFAuction.ViewModel
 {
     public class Lot : INotifyPropertyChanged
     {
-        //public TimeClass MyTimeClass { get; set; }
+        public TimeClass MyTimeClass { get; set; }
         
         private string _buyerName;
         public string BuyerName
@@ -17,8 +18,6 @@ namespace WPFAuction.ViewModel
             }
         }
 
-        // public int Id { get; set; }
-
         private string _name;
         public string Name
         {
@@ -29,7 +28,16 @@ namespace WPFAuction.ViewModel
                 OnPropertyChanged("Name");
             }
         }
-
+        private bool _isSold;
+        public bool IsSold
+        {
+            get { return _isSold; }
+            set
+            {
+                _isSold = value;
+                OnPropertyChanged("IsSold");
+            }
+        }
         private decimal _price;
         public decimal StartPrice
         {
@@ -80,7 +88,7 @@ namespace WPFAuction.ViewModel
         }
         public Lot()
         {
-            //MyTimeClass = new TimeClass();
+            MyTimeClass = new TimeClass();
         }
     }
 }

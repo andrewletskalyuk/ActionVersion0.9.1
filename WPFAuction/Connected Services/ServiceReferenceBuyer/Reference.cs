@@ -56,10 +56,10 @@ namespace WPFAuction.ServiceReferenceBuyer {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/AddCashForBuyer")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AuctionBLLService.DTOClasses.ServerLotDTO))]
-        void AddCashForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
+        void AddCashForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal cash);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/AddCashForBuyer")]
-        System.Threading.Tasks.Task AddCashForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO);
+        System.Threading.Tasks.Task AddCashForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal cash);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -67,6 +67,15 @@ namespace WPFAuction.ServiceReferenceBuyer {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/ReturnBuyerCash")]
         void ReturnBuyerCash(decimal cash);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/UpdateBuyerLots")]
+        void UpdateBuyerLots(AuctionBLLService.DTOClasses.ServerLotDTO allLots, AuctionBLLService.DTOClasses.ServerLotDTO[] selectedBuyersLots);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLots")]
+        void UpdateBuyerBoughtLots(AuctionBLLService.DTOClasses.ServerLotDTO boughtLot);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLotsAfter")]
+        void UpdateBuyerBoughtLotsAfter(AuctionBLLService.DTOClasses.ServerLotDTO[] boughtBuyersLots);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -137,12 +146,12 @@ namespace WPFAuction.ServiceReferenceBuyer {
             return base.Channel.BoughtLotAsync(serverBuyerDTO, serverLotDTO);
         }
         
-        public void AddCashForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO) {
-            base.Channel.AddCashForBuyer(serverBuyerDTO);
+        public void AddCashForBuyer(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal cash) {
+            base.Channel.AddCashForBuyer(serverBuyerDTO, cash);
         }
         
-        public System.Threading.Tasks.Task AddCashForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO) {
-            return base.Channel.AddCashForBuyerAsync(serverBuyerDTO);
+        public System.Threading.Tasks.Task AddCashForBuyerAsync(AuctionBLLService.DTOClasses.ServerBuyerDTO serverBuyerDTO, decimal cash) {
+            return base.Channel.AddCashForBuyerAsync(serverBuyerDTO, cash);
         }
     }
 }

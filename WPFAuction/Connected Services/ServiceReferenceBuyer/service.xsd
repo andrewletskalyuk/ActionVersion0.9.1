@@ -55,6 +55,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" minOccurs="0" name="serverBuyerDTO" nillable="true" type="q8:ServerBuyerDTO" />
+        <xs:element minOccurs="0" name="cash" type="xs:decimal" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -62,6 +63,28 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="cash" type="xs:decimal" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateBuyerLots">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" minOccurs="0" name="allLots" nillable="true" type="q9:ServerLotDTO" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" minOccurs="0" name="selectedBuyersLots" nillable="true" type="q10:ArrayOfServerLotDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateBuyerBoughtLots">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" minOccurs="0" name="boughtLot" nillable="true" type="q11:ServerLotDTO" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateBuyerBoughtLotsAfter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" minOccurs="0" name="boughtBuyersLots" nillable="true" type="q12:ArrayOfServerLotDTO" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -310,6 +310,75 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IForBuyer_UpdateBuyerLots_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IForBuyer_UpdateBuyerBoughtLots_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IForBuyer_UpdateBuyerBoughtLotsAfter_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
@@ -344,6 +413,15 @@
   <wsdl:message name="IForBuyer_ReturnBuyerCash_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:ReturnBuyerCash" />
   </wsdl:message>
+  <wsdl:message name="IForBuyer_UpdateBuyerLots_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UpdateBuyerLots" />
+  </wsdl:message>
+  <wsdl:message name="IForBuyer_UpdateBuyerBoughtLots_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UpdateBuyerBoughtLots" />
+  </wsdl:message>
+  <wsdl:message name="IForBuyer_UpdateBuyerBoughtLotsAfter_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UpdateBuyerBoughtLotsAfter" />
+  </wsdl:message>
   <wsdl:portType name="IForBuyer">
     <wsdl:operation name="GetAllProduct">
       <wsdl:input wsaw:Action="http://tempuri.org/IForBuyer/GetAllProduct" message="tns:IForBuyer_GetAllProduct_InputMessage" />
@@ -367,6 +445,15 @@
     </wsdl:operation>
     <wsdl:operation name="ReturnBuyerCash">
       <wsdl:output wsaw:Action="http://tempuri.org/IForBuyer/ReturnBuyerCash" message="tns:IForBuyer_ReturnBuyerCash_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerLots">
+      <wsdl:output wsaw:Action="http://tempuri.org/IForBuyer/UpdateBuyerLots" message="tns:IForBuyer_UpdateBuyerLots_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerBoughtLots">
+      <wsdl:output wsaw:Action="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLots" message="tns:IForBuyer_UpdateBuyerBoughtLots_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerBoughtLotsAfter">
+      <wsdl:output wsaw:Action="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLotsAfter" message="tns:IForBuyer_UpdateBuyerBoughtLotsAfter_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_IForBuyer" type="tns:IForBuyer">
@@ -426,6 +513,27 @@
       <soap12:operation soapAction="http://tempuri.org/IForBuyer/ReturnBuyerCash" style="document" />
       <wsdl:output>
         <wsp:PolicyReference URI="#WSDualHttpBinding_IForBuyer_ReturnBuyerCash_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerLots">
+      <soap12:operation soapAction="http://tempuri.org/IForBuyer/UpdateBuyerLots" style="document" />
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IForBuyer_UpdateBuyerLots_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerBoughtLots">
+      <soap12:operation soapAction="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLots" style="document" />
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IForBuyer_UpdateBuyerBoughtLots_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateBuyerBoughtLotsAfter">
+      <soap12:operation soapAction="http://tempuri.org/IForBuyer/UpdateBuyerBoughtLotsAfter" style="document" />
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IForBuyer_UpdateBuyerBoughtLotsAfter_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>

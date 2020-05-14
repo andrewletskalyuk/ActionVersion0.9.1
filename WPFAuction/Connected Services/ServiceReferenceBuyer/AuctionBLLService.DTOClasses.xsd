@@ -10,7 +10,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="BuyerId" type="xs:int" />
       <xs:element minOccurs="0" name="BuyerName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IsSell" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSold" type="xs:boolean" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Photo" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SellerId" type="xs:int" />
@@ -21,9 +21,10 @@
   <xs:element name="ServerLotDTO" nillable="true" type="tns:ServerLotDTO" />
   <xs:complexType name="ServerBuyerDTO">
     <xs:sequence>
-      <xs:element minOccurs="0" name="BuyerBoughtLots" nillable="true" type="tns:ArrayOfServerLotDTO" />
-      <xs:element minOccurs="0" name="BuyerSelectedLots" nillable="true" type="tns:ArrayOfServerLotDTO" />
+      <xs:element minOccurs="0" name="BuyerBoughtLotsDTO" nillable="true" type="tns:ArrayOfServerLotDTO" />
+      <xs:element minOccurs="0" name="BuyerSelectedLotsDTO" nillable="true" type="tns:ArrayOfServerLotDTO" />
       <xs:element minOccurs="0" name="Cash" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IsOnline" type="xs:boolean" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="buyerCallback" nillable="true" type="xs:anyType" />

@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAuction"
+        xmlns:c="clr-namespace:WPFAuction"
         mc:Ignorable="d"
         Title="BuyerWindow" Height="450" Width="800"
          x:Name="buyerWindowTitle"
         Closed="DisconectBuyer">
     <Window.Resources>
-        
+        <c:ImageConvertora x:Key="imageKey"></c:ImageConvertora>
         <Style TargetType="TextBlock" x:Key="tbLotInfo">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="7"/>
@@ -80,9 +81,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="ImagesForProject/AuctionImage.jpg" Stretch="Fill"></ImageBrush>
-        </Grid.Background>
+      
         <ListBox  x:Name="lstAuction" ItemsSource="{Binding Path=ClientLots}" 
                   SelectedItem="{Binding Path=SelectedLot}"
                   Style="{StaticResource lstAuction}"
@@ -112,14 +111,17 @@
                                     
                         BorderBrush="Black"
                          BorderThickness="3"
-            CornerRadius="10 10 10 10">
+            CornerRadius="10 10 10 10"
+                        >
                         <Grid 
                         MinWidth="300" MaxWidth="400" HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="1">
+
+                            <StackPanel Grid.Column="1" >
+                                
                                 <StackPanel  Orientation="Horizontal">
 
                                     <Label Style="{StaticResource lbName}" Content="{Binding Path=Name, IsAsync=True, Mode=TwoWay}"></Label>
@@ -133,9 +135,13 @@
                                        Text="{Binding Path=BuyerName, IsAsync=True, Mode=TwoWay}"></TextBlock>
 
                                 </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    
                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" >
-                                    <TextBlock Foreground="Black">SellPrice:</TextBlock>
+                                    <TextBlock Foreground="Black">Price:</TextBlock>
                                     <TextBlock Style="{StaticResource tbList}" Text="{Binding Path=StartPrice, IsAsync=True, Mode=TwoWay,StringFormat={}{0} $}"></TextBlock>
+                                </StackPanel>
+                                    <Image Source="{Binding Path=IsSold,Converter={StaticResource imageKey}}" MaxHeight="30"></Image>
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -158,7 +164,8 @@
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button Margin="15" Padding="7"
                     Style="{StaticResource NewGameButtonStyle}" Click="RebuyBtn_Click">RebuyCash</Button>
-                <TextBlock>UserCash:</TextBlock>
+                <TextBox Width="120" Margin="7" Height="30" Name="tbRebuyCash"></TextBox>
+                <TextBlock VerticalAlignment="Center">UserCash:</TextBlock>
                 <TextBlock Style="{StaticResource tbList}"         
                     x:Name="tbCash" Text="{Binding Path=Cash,StringFormat={}{0} $}"></TextBlock>
             </StackPanel>
@@ -171,22 +178,16 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock HorizontalAlignment="Center"
-                       FontSize="17"
-                       FontStyle="Italic"
-                       Margin="2">User selected lots</TextBlock>
-                    <ListBox x:Name="lstBuyerLots"></ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="1">
+                
+                <StackPanel Grid.Row="1" Grid.RowSpan="2">
                     <TextBlock HorizontalAlignment="Center"
                        FontSize="17"
                        FontStyle="Italic"
                        Margin="2">Bought lots</TextBlock>
-                    <ListBox></ListBox>
+                    <ListBox x:Name="lstBoughtLots" DisplayMemberPath="Name" MaxHeight="200"></ListBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.RowSpan="2"
-                            DataContext="{Binding ElementName=lstBuyerLots,Path=SelectedItem}"
+                            DataContext="{Binding ElementName=lstBoughtLots,Path=SelectedItem}"
                             >
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource tbLotInfo}">ProductName:</TextBlock>
@@ -194,7 +195,7 @@
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Style="{StaticResource tbLotInfo}">ProductSetPrice:</TextBlock>
-                        <TextBlock Text="{Binding Path=Price,StringFormat={}{0} $}" Style="{StaticResource tbLotInfo}"></TextBlock>
+                        <TextBlock Text="{Binding Path=StartPrice,StringFormat={}{0} $}" Style="{StaticResource tbLotInfo}"></TextBlock>
                     </StackPanel>
                     <Image MaxHeight="75" Source="{Binding Path=Photo}"></Image>
                 </StackPanel>
@@ -210,7 +211,7 @@
 
                     <StackPanel>
                         <Slider Margin="7" 
-                    x:Name="sliderBet" Width="250" HorizontalAlignment="Right" Height="30" Maximum="{Binding Path=BuyerCash}"
+                    x:Name="sliderBet" Width="250" HorizontalAlignment="Right" Height="30" Maximum="{Binding Path=Cash}"
                         IsSnapToTickEnabled="True" TickFrequency="500" TickPlacement="Both"></Slider>
                         <TextBlock>Bet:</TextBlock>
                         <TextBox x:Name="tbBet" 

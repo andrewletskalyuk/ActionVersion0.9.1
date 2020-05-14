@@ -2,10 +2,11 @@
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/AuctionBLLService.DTOClasses" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="ServerSellerDTO">
     <xs:sequence>
-      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="IsOnline" type="xs:boolean" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="SellerLots" nillable="true" type="tns:ArrayOfServerLotDTO" />
+      <xs:element minOccurs="0" name="SellerLot" nillable="true" type="tns:ArrayOfServerLotDTO" />
+      <xs:element minOccurs="0" name="sellerCallback" nillable="true" type="xs:anyType" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ServerSellerDTO" nillable="true" type="tns:ServerSellerDTO" />
@@ -19,7 +20,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="BuyerId" type="xs:int" />
       <xs:element minOccurs="0" name="BuyerName" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="IsSell" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSold" type="xs:boolean" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Photo" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SellerId" type="xs:int" />

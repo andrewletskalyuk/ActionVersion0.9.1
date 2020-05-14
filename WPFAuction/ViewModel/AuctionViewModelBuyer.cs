@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace WPFAuction.ViewModel
 {
@@ -23,15 +24,34 @@ namespace WPFAuction.ViewModel
 				PropertyChanger("Cash");
 			}
 		}
-		private ObservableCollection<Lot> _buyerLots;
+		public void MyTimerStart(int value)
+		{
+			var timer = new DispatcherTimer();
+			timer.Tick += new EventHandler(BuyerLots[value].MyTimeClass.counterOne_Tick);
+			timer.Interval = new TimeSpan(0, 0, 1);
+			timer.Start();
 
+
+		}
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void PropertyChanger(string propertyName)
 		{
 			if (PropertyChanged != null)
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 		}
+		private ObservableCollection<Lot> _buyerBoughtLots;
+		public ObservableCollection<Lot> BuyerBoughtLots
+		{
+			get { return _buyerBoughtLots; }
+			set { _buyerBoughtLots = value; }
+		}
+		private ObservableCollection<Lot> _buyerSelectedLots;
+		public ObservableCollection<Lot> BuyerSelectedLots
+		{
+			get { return _buyerSelectedLots; }
+			set { _buyerSelectedLots = value; }
+		}
+		private ObservableCollection<Lot> _buyerLots;
 		public ObservableCollection<Lot> BuyerLots
 		{
 			get { return _buyerLots; }

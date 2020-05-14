@@ -38,7 +38,7 @@ namespace AuctionDB.ClassesWithAccessToDB
         {
             var _buyer = auctionModel.Buyers.FirstOrDefault(b => b.Name == buyer.Name && b.Password==buyer.Password);
             auctionModel.Lots.FirstOrDefault(x => x.Name == item.Name).BuyerId = _buyer.Id;
-            Commit();
+          //  Commit();
         }
 
         public bool DoesItBuyerExist(Buyers buyer)

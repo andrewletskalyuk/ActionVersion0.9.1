@@ -13,7 +13,7 @@ namespace AuctionBLLService
     {
         
        
-        List<ISellerCallback> sellerCallbacks;
+       // List<ISellerCallback> sellerCallbacks;
         public UpdateAuctionService(IBuyerCallback buyerCallback)
         {
           //  this.buyerCallback.Add(buyerCallback);

@@ -93,18 +93,13 @@
                                     <TextBlock 
                                         Style="{StaticResource textBlockStyle1}"
                                         Text="{Binding Path=Name, IsAsync=True, Mode=TwoWay}"/>
-                                    <TextBlock Style="{StaticResource textBlockStyle}">
-                                        Buyer name:
-                                    </TextBlock>
-                                    <TextBlock 
-                                        Style="{StaticResource textBlockStyle1}" 
-                                        Text="{Binding Path=BuyerName, IsAsync=True, Mode=TwoWay}"/>
+                                   
                                     <TextBlock Style="{StaticResource textBlockStyle}">
                                         Price:
                                     </TextBlock>
                                     <TextBlock 
                                         Style="{StaticResource textBlockStyle1}"
-                                        Text="{Binding Path=Price, IsAsync=True, Mode=TwoWay}"/>
+                                        Text="{Binding Path=StartPrice, IsAsync=True, Mode=TwoWay}"/>
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
@@ -133,7 +128,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
                 <RowDefinition Height="113*"/>
-                <RowDefinition Height="138*"/>
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource textBlockStyleProduct}" Margin="10,10,10,106">
                  Title of product:
@@ -155,31 +149,23 @@
             <Image 
                 x:Name="imageForLot" Stretch="Fill"
                 Source="{Binding}"
-                HorizontalAlignment="Left" Height="100" Margin="10,1,0,0" 
-                VerticalAlignment="Top" Width="100" Grid.Row="1">
+                HorizontalAlignment="Left" Height="150" Margin="20,1,0,0" 
+                VerticalAlignment="Top" Width="150" Grid.Row="1">
             </Image>
-            <TextBlock Style="{StaticResource textBlockStyleProduct}" Margin="124,1,10,84" Grid.Row="1"><Run Text="Choose the photo for lot"/></TextBlock>
+            <TextBlock Style="{StaticResource textBlockStyleProduct}" Margin="184,1,10,84" Grid.Row="1" TextWrapping="Wrap"><Run />Push 'create' to add lot in auction</TextBlock>
             <Button 
                 x:Name="btnChooseThPhoto"
                 Click="btnChooseThPhoto_Click"
-                Content="Make it" Style="{StaticResource NewGameButtonStyle}"
-                HorizontalAlignment="Left" Margin="124,39,0,0" 
-                VerticalAlignment="Top" Width="110" Height="32" Grid.Row="1"/>
-            <TextBlock Style="{StaticResource textBlockStyleProduct}" Margin="10,3,5,111" Grid.Row="2">
-                Couple words about product
-            </TextBlock>
-            <TextBox 
-                x:Name="tbNameProductDescription"
-                Style="{StaticResource ResourceKey=textBlockProductData}"
-                HorizontalAlignment="Left" 
-                Height="51" Margin="15,32,0,0" TextWrapping="Wrap" 
-                VerticalAlignment="Top" Width="321" Grid.Row="2"/>
+                Content="Take lot" Style="{StaticResource NewGameButtonStyle}"
+                HorizontalAlignment="Left" Margin="112,159,0,0" 
+                VerticalAlignment="Top" Width="110" Height="32"/>
+
             <Button 
                 x:Name="btnCreateNewLot"
                 Click="btnCreateNewLot_Click"
                 Style="{StaticResource NewGameButtonStyle}"
-                HorizontalAlignment="Left" Margin="15,96,0,0" 
-                VerticalAlignment="Top" Width="95" Height="37" Grid.Row="2">
+ Margin="180,92.2,0,0" 
+                VerticalAlignment="Top" Width="95" Height="41" Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="c1" Source="ImagesForProject/CreateButton1.jpg" Width="60" Height="30"/>
                 </StackPanel>

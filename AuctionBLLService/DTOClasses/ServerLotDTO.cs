@@ -10,7 +10,7 @@
         public decimal StartPrice { get; set; }
         public decimal SoldPrice { get; set; }
         public string Photo { get; set; }
-        public bool IsSell { get; set; }
+        public bool IsSold { get; set; }
         public ServerLotDTO()
         {
         }

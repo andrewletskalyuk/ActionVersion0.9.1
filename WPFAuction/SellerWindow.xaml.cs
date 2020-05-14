@@ -10,19 +10,21 @@ using System.Windows.Media.Imaging;
 using WPFAuction.ViewModel;
 using WPFAuction.ServiceReferenceSeller;
 using AutoMapper;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace AuctionClient
 {
     /// <summary>
     /// Interaction logic for SellerWindow.xaml
     /// </summary> //changes
-    public partial class SellerWindow : Window
+    public partial class SellerWindow : Window, IForSellerCallback
     {
 
         private int startPriceOfLot;
         ForSellerClient ForSellerClient;
         public AuctionViewModelSeller Sellerviewmodel { get; set; }
-        public IMapper sellerMaper=null;
+        public IMapper sellerMaper = null;
         public IMapper lotMaper = null;
         //public SellerWindow()
         //{
@@ -40,13 +42,13 @@ namespace AuctionClient
         /// <param name="sellerCash"></param>
         public SellerWindow(string sellerName, string sellerPassword)
         {
-            ForSellerClient = new ForSellerClient();
+            ForSellerClient = new ForSellerClient(new System.ServiceModel.InstanceContext(this));
             InitializeComponent();
-            var sellerconfig= new MapperConfiguration(x =>
-            {
-                x.CreateMap<ServerSellerDTO, AuctionViewModelSeller>();
-                x.CreateMap<AuctionViewModelSeller, ServerSellerDTO>();
-            });
+            var sellerconfig = new MapperConfiguration(x =>
+             {
+                 x.CreateMap<ServerSellerDTO, AuctionViewModelSeller>();
+                 x.CreateMap<AuctionViewModelSeller, ServerSellerDTO>();
+             });
             sellerMaper = sellerconfig.CreateMapper();
 
             var lotconfig = new MapperConfiguration(x =>
@@ -57,27 +59,27 @@ namespace AuctionClient
 
             lotMaper = lotconfig.CreateMapper();
 
-            Sellerviewmodel = new AuctionViewModelSeller() {Name=sellerName,Password=sellerPassword};
-             this.DataContext = Sellerviewmodel;
-            ConnectionForSeller();
+            Sellerviewmodel = new AuctionViewModelSeller() { Name = sellerName, Password = sellerPassword };
+            this.DataContext = Sellerviewmodel;
+            Connection();
         }
         /// <summary>
         /// ConnectionForSeller - add data for view, and make datasource for listbox
         /// </summary>
-        private void ConnectionForSeller()
+        private async void Connection()
         {
             var tempSeller = sellerMaper.Map<AuctionViewModelSeller, ServerSellerDTO>(Sellerviewmodel);
 
-            if(ForSellerClient.ConnectionForSeller(tempSeller))
+            if (await ForSellerClient.ConnectionForSellerAsync(tempSeller))
             {
-            sellerWindowTitle.Title = Sellerviewmodel.Name;
+                sellerWindowTitle.Title = Sellerviewmodel.Name;
             }
             else
             {
                 this.Close();
-            }      
+            }
             //При конекшенні повертати лоти які уже є у селлера
-           lbLots.ItemsSource = Sellerviewmodel.SellerLots;
+            // lbLots.ItemsSource = Sellerviewmodel.SellerLots;
         }
 
         private void btnChooseThPhoto_Click(object sender, RoutedEventArgs e)
@@ -86,11 +88,16 @@ namespace AuctionClient
             openFileDialog.Filter = "Image files|*.png;*.jpeg;*.jpg";
             openFileDialog.ShowDialog();
             var sourceFilePath = openFileDialog.FileName;
-            var destinantionFilePath = Directory.GetCurrentDirectory() +
+            string destinantionFilePath;
+            if (!Directory.Exists((Directory.GetCurrentDirectory() +
+                                        $"\\ImagesForLots")))
+                Directory.CreateDirectory("ImagesForLots");
+
+            destinantionFilePath = Directory.GetCurrentDirectory() +
                                         $"\\ImagesForLots\\" +
                                         System.IO.Path.GetFileName(sourceFilePath);
             File.Copy(sourceFilePath, destinantionFilePath, true);
-            
+
             Image lotImage = new Image();
             //lotImage.Width = 100;
             //lotImage.Height = 100;
@@ -114,14 +121,14 @@ namespace AuctionClient
                 Lot sellerLot = new Lot()
                 {
                     Name = tbNameProduct.Text,
-                    BuyerName = "Just added product",
+                    BuyerName = "No buyer",
                     StartPrice = tempPriceLot,
-                    SoldPrice = tempPriceLot,
+                    //SoldPrice = tempPriceLot,
                     Photo = imageForLot.Source.ToString()
                 };
-
+                var tempLot = lotMaper.Map<Lot, ServerLotDTO>(sellerLot);
                 var tempSeller = sellerMaper.Map<AuctionViewModelSeller, ServerSellerDTO>(Sellerviewmodel);
-                var tempLot = lotMaper.Map<Lot , ServerLotDTO>(sellerLot);
+                //   var tempSeller = sellerMaper.Map<AuctionViewModelSeller, ServerSellerDTO>(Sellerviewmodel);
 
                 ForSellerClient.AddLot(tempSeller, tempLot);
 
@@ -157,9 +164,16 @@ namespace AuctionClient
             }
         }
 
-        public void UpdateLot(ServerLotDTO lot)
+
+        public void ReturnSellerLot(ServerLotDTO[] lots)
         {
-            throw new NotImplementedException();
+            ObservableCollection<Lot> lots1 = new ObservableCollection<Lot>();
+            foreach (ServerLotDTO item in lots)
+            {
+                lots1.Add(lotMaper.Map<ServerLotDTO, Lot>(item));
+            }
+            Sellerviewmodel.SellerLots = lots1;
+            lbLots.ItemsSource = Sellerviewmodel.SellerLots;
         }
     }
 }

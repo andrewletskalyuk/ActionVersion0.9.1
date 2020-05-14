@@ -9,14 +9,14 @@ using System.ServiceModel;
 
 namespace AuctionBLLService
 {
-  
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class AuctionServiceBuyer : UpdateAuctionService, IForBuyer 
+
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
+    public class AuctionServiceBuyer : UpdateAuctionService, IForBuyer
     {
         public List<ServerBuyerDTO> tempBuyersOnline = new List<ServerBuyerDTO>();
 
-        public BuyerWrapper buyerWrapper=null;
+        public BuyerWrapper buyerWrapper = null;
         public IMapper mapperLot = null;
         public IMapper mapperBuyer = null;
         List<ServerLotDTO> templotsBuyer = new List<ServerLotDTO>(); //всі лоти 
@@ -25,8 +25,6 @@ namespace AuctionBLLService
         {
 
             buyerWrapper = new BuyerWrapper();
-
-           // 
 
             var configLot = new MapperConfiguration(x =>
             {
@@ -41,32 +39,67 @@ namespace AuctionBLLService
                 x.CreateMap<ServerBuyerDTO, Buyers>();
             });
             mapperBuyer = configBuyer.CreateMapper();
+
+            templotsBuyer = mapperLot.Map<IEnumerable<Lots>, IEnumerable<ServerLotDTO>>(buyerWrapper.GetLots()).ToList();
         }
         public bool ConnectionForBuyer(ServerBuyerDTO serverBuyerDTO)
         {
+            var test = mapperLot.Map<IEnumerable<Lots>, IEnumerable<ServerLotDTO>>(buyerWrapper.GetLots()).ToList();
+            if(test.Count> templotsBuyer.Count)
+            { 
+                templotsBuyer.Add(test[test.Count-1]);
+            }
             Buyers temp = mapperBuyer.Map<ServerBuyerDTO, Buyers>(serverBuyerDTO);
             if (buyerWrapper.DoesItBuyerExist(temp))
             {
-                if (tempBuyersOnline.FirstOrDefault(x=>x.Name==serverBuyerDTO.Name 
-                                                    && x.Password==serverBuyerDTO.Password)==null)
+                if (tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name
+                                                    && x.Password == serverBuyerDTO.Password) == null)
                 {
                     //повертаємо гроші баєру які в нього є на рахунку
-;
+
                     serverBuyerDTO.Cash = buyerWrapper.GetCurrentCash(temp);
-                //    serverBuyerDTO.buyerCallback = .;
+                    serverBuyerDTO.buyerCallback = OperationContext.Current.GetCallbackChannel<IBuyerCallback>();
+                    serverBuyerDTO.IsOnline = true;
                     tempBuyersOnline.Add(serverBuyerDTO);
                     foreach (ServerBuyerDTO item in tempBuyersOnline)
                     {
-                        decimal cash = item.Cash;
-                        OperationContext.Current.GetCallbackChannel<IBuyerCallback>().ReturnBuyerCash(cash);
-                    
+                        if (item.Name == serverBuyerDTO.Name)
+                        {
+                            decimal cash = item.Cash;
+                            item.buyerCallback.ReturnBuyerCash(cash);
+                        }
                     }
-                    
+
                     return true;
                 }
                 else
                 {
-                    return false;
+                    if (tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name
+                                                     && x.Password == serverBuyerDTO.Password).IsOnline == true)
+                        return false;
+                    else
+                    {
+                        tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name
+                                                     && x.Password == serverBuyerDTO.Password).IsOnline = true;
+                        tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name
+                                                     && x.Password == serverBuyerDTO.Password).buyerCallback =
+                                                     OperationContext.Current.GetCallbackChannel<IBuyerCallback>();
+                        foreach (ServerBuyerDTO item in tempBuyersOnline)
+                        {
+                            if (item.Name == serverBuyerDTO.Name)
+                            {
+                                decimal cash = item.Cash;
+                                item.buyerCallback.ReturnBuyerCash(cash);
+                                item.buyerCallback.UpdateBuyerLots(null, item.BuyerSelectedLotsDTO);
+                                var boughtLots = tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name).
+                                               BuyerBoughtLotsDTO;
+                                item.buyerCallback.UpdateBuyerBoughtLotsAfter(boughtLots);
+                                
+                            }
+                        }
+
+                        return true;
+                    }
                 }
             }
             else
@@ -79,47 +112,83 @@ namespace AuctionBLLService
 
         public void BoughtLot(ServerBuyerDTO serverBuyerDTO, ServerLotDTO serverLotDTO)
         {
-            tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name && 
-                                            x.Password == serverBuyerDTO.Password).
-                                            BuyerBoughtLots.Add(serverLotDTO);
-            Lots tempLotF = mapperLot.Map<ServerLotDTO, Lots>(serverLotDTO);
-            Buyers tempBuyerF = mapperBuyer.Map<ServerBuyerDTO, Buyers>(serverBuyerDTO);
-            buyerWrapper.BoughtLot(tempLotF, tempBuyerF);
+
+            if (serverBuyerDTO.Name == serverLotDTO.BuyerName)
+            {
+                var tempLot = templotsBuyer.FirstOrDefault(x => x.Name == serverLotDTO.Name);
+
+                tempBuyersOnline.FirstOrDefault(x => x.Name == tempLot.BuyerName).BuyerSelectedLotsDTO.Remove(tempLot);
+
+
+                tempBuyersOnline.FirstOrDefault(x => x.Name == serverLotDTO.BuyerName).
+                                                BuyerBoughtLotsDTO.Add(tempLot);
+
+                var boughtLots = tempBuyersOnline.FirstOrDefault(x => x.Name == serverLotDTO.BuyerName).
+                                                BuyerBoughtLotsDTO;
+
+                templotsBuyer.FirstOrDefault(x => x.Name == serverLotDTO.Name).IsSold = true;
+
+                foreach (ServerBuyerDTO item in tempBuyersOnline)
+                {
+                    // item.buyerCallback.UpdateBuyerLots(null, item.BuyerSelectedLotsDTO);
+                    item.buyerCallback.UpdateBuyerLots(null, item.BuyerSelectedLotsDTO);
+                    item.buyerCallback.UpdateBuyerBoughtLots(templotsBuyer.FirstOrDefault(x => x.Name == serverLotDTO.Name));
+                    if (item.Name == serverLotDTO.BuyerName)
+                    {
+                        item.buyerCallback.UpdateBuyerBoughtLotsAfter(boughtLots);
+                    }
+                }
+            }
         }
 
         public ICollection<ServerLotDTO> GetAllProduct()
         {
-            templotsBuyer = mapperLot.Map<IEnumerable<Lots>, IEnumerable<ServerLotDTO>>(buyerWrapper.GetLots()).ToList();
             return templotsBuyer;
         }
-
-        public void AddCashForBuyer(ServerBuyerDTO serverBuyerDTO)
+        //ПЕРЕДИВИТИСЬ МЕТОД 
+        public void AddCashForBuyer(ServerBuyerDTO serverBuyerDTO, decimal cash)
         {
             tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name &&
-                                            x.Password == serverBuyerDTO.Password).Cash = serverBuyerDTO.Cash;
+                                            x.Password == serverBuyerDTO.Password).Cash += cash;
+            serverBuyerDTO.Cash = tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name &&
+                                              x.Password == serverBuyerDTO.Password).Cash;
             Buyers temp = mapperBuyer.Map<ServerBuyerDTO, Buyers>(serverBuyerDTO);
             buyerWrapper.AddCashForBuyer(temp);
+            foreach (ServerBuyerDTO item in tempBuyersOnline)
+            {
+                if (item.Name == serverBuyerDTO.Name)
+                    item.buyerCallback.ReturnBuyerCash(item.Cash);
+            }
         }
 
-        //передивитись на предмет дісконнекта, коли баєр уходить що робити з грошима і ставкою
         public void DisconectionForBuyer(ServerBuyerDTO serverBuyerDTO)
         {
-            tempBuyersOnline.Remove(serverBuyerDTO);
+            tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name && x.Password == serverBuyerDTO.Password).IsOnline = false;           
         }
 
         public void MakeBet(ServerLotDTO serverLotDTO, ServerBuyerDTO serverBuyerDTO, decimal newPrice)
         {
+
             tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name &&
                                             x.Password == serverBuyerDTO.Password).Cash -= newPrice;
 
             var tempLot = templotsBuyer.FirstOrDefault(x => x.BuyerName == serverLotDTO.BuyerName);
-            if (tempLot != null)
+            if (tempLot != null && tempLot.BuyerName != "No buyer")
             {
                 tempBuyersOnline.FirstOrDefault(x => x.Name == tempLot.BuyerName).Cash += tempLot.StartPrice;
+                tempBuyersOnline.FirstOrDefault(x => x.Name == tempLot.BuyerName).BuyerSelectedLotsDTO.Remove(tempLot);
             }
 
-            templotsBuyer.FirstOrDefault(x => x.BuyerName == serverLotDTO.BuyerName).StartPrice = newPrice;
-            templotsBuyer.FirstOrDefault(x => x.BuyerName == serverLotDTO.BuyerName).BuyerName = serverBuyerDTO.Name;
+            templotsBuyer.FirstOrDefault(x => x.Photo == serverLotDTO.Photo).StartPrice = newPrice;
+            templotsBuyer.FirstOrDefault(x => x.Photo == serverLotDTO.Photo).BuyerName = serverBuyerDTO.Name;
+            var newtempLot = templotsBuyer.FirstOrDefault(x => x.Name == serverLotDTO.Name);
+            tempBuyersOnline.FirstOrDefault(x => x.Name == serverBuyerDTO.Name &&
+                                            x.Password == serverBuyerDTO.Password).BuyerSelectedLotsDTO.Add(newtempLot);
+            foreach (ServerBuyerDTO item in tempBuyersOnline)
+            {
+                item.buyerCallback.UpdateBuyerLots(newtempLot, item.BuyerSelectedLotsDTO);
+                item.buyerCallback.ReturnBuyerCash(item.Cash);
+            }
         }
     }
 }

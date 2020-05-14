@@ -79,7 +79,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ConnectionClass.cs" />
+    <Compile Include="ImageConvertor.cs" />
     <Compile Include="Model\Lot.cs" />
+    <Compile Include="TimerClass\TimeClass.cs" />
     <Compile Include="ViewModel\AuctionViewModelBuyer.cs" />
     <Compile Include="ViewModel\AuctionViewModelSeller.cs" />
     <Page Include="BuyerWindow.xaml">
@@ -221,6 +223,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ImagesForProject\sold.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
